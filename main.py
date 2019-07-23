@@ -10,7 +10,8 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QLabel,
     QDialog,
-    QMessageBox
+    QMessageBox,
+    QFormLayout
 )
 from PyQt5.QtCore import Qt
 import sys
@@ -141,7 +142,7 @@ class DataBaseInput(QDialog):
         self.initWindow()
 
     def initWindow(self):
-        layout = QGridLayout()
+        layout = QFormLayout()
 
         addressLabel = QLabel('Адрес сервера')
         self.address = QLineEdit()
@@ -161,22 +162,18 @@ class DataBaseInput(QDialog):
         okButton = QPushButton('Подключиться')
         okButton.clicked.connect(self.connectToDB)
 
-        layout.addWidget(addressLabel, 0, 0)
-        layout.addWidget(self.address, 0, 1)
-        layout.addWidget(usernameLabel, 1, 0)
-        layout.addWidget(self.username, 1, 1)
-        layout.addWidget(passwordLabel, 2, 0)
-        layout.addWidget(self.password, 2, 1)
-        layout.addWidget(dbNameLabel, 3, 0)
-        layout.addWidget(self.dbName, 3, 1)
-        layout.addWidget(dbDialectLabel, 4, 0)
-        layout.addWidget(self.dbDialect, 4, 1)
-        layout.addWidget(okButton, 5, 0, 1, 2)
+        layout.addRow(addressLabel, self.address)
+        layout.addRow(usernameLabel, self.username)
+        layout.addRow(passwordLabel, self.password)
+        layout.addRow(dbNameLabel, self.dbName)
+        layout.addRow(dbDialectLabel, self.dbDialect)
+        layout.addRow(okButton)
+        layout.setLabelAlignment(Qt.AlignCenter)
 
         self.setLayout(layout)
         self.setWindowModality(Qt.ApplicationModal)
         self.setWindowTitle('Подключение к базе данных')
-        self.resize(300, 300)
+        self.resize(300, 250)
 
     def connectToDB(self):
         self.engine = sqlalchemy.create_engine(
