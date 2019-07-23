@@ -12,7 +12,8 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMessageBox,
     QFormLayout,
-    QLayout
+    QLayout,
+    QComboBox
 )
 from PyQt5.QtCore import Qt
 import sys
@@ -159,7 +160,8 @@ class DataBaseInput(QDialog):
         self.dbName = QLineEdit()
 
         dbDialectLabel = QLabel('Диалект SQL')
-        self.dbDialect = QLineEdit()
+        self.dbDialect = QComboBox()
+        self.dbDialect.addItems(['sqlite', 'postgresql', 'mysql', 'oracle', 'mssql'])
 
         okButton = QPushButton('Подключиться')
         okButton.clicked.connect(self.connectToDB)
@@ -179,7 +181,7 @@ class DataBaseInput(QDialog):
 
     def connectToDB(self):
         self.engine = sqlalchemy.create_engine(
-            f'{self.dbDialect.text()}://{self.username.text()}:{self.password.text()}@{self.address.text()}/{self.dbName.text()}'
+            f'{self.dbDialect.currentText()}://{self.username.text()}:{self.password.text()}@{self.address.text()}/{self.dbName.text()}'
         )
         self.conn = self.engine.connect()
         self.accept()
