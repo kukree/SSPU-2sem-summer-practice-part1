@@ -188,6 +188,8 @@ class DataBaseInput(QDialog):
 
 # TODO: Удалить все автосозданные вкладки снизу (они будут заменены таблицами в базе данных)
 # TODO: Создать класс для новой таблицы и ее вывода в окне вкладок
+
+# TEMP CLASS
 class EmployeesTable(QTableWidget):
     def __init__(self):
         super().__init__()
@@ -196,92 +198,6 @@ class EmployeesTable(QTableWidget):
     def initWidget(self):
         self.name = 'Сотрудники'
         labels = ['Код', 'ФИО', 'Возраст', 'Пол', 'Адрес', 'Телефон', 'Паспортные данные', 'Код должности']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class PostsTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Должности'
-        labels = ['Код должности', 'Наименование должности', 'Оклад', 'Обязанности', 'Требования']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class ProductsTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Товары'
-        labels = ['Код товара', 'Код типа', 'Производитель', 'Наименование', 'Условия хранения', 'Упаковка',
-                  'Срок годности']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class ProductsTypesTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Типы товаров'
-        labels = ['Код типа', 'Наименование', 'Описание', 'Особенности']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class SuppliersTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Поставщики'
-        labels = ['Код поставщика', 'Наименование', 'Адрес', 'Телефон', 'Код поставляемого товара']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class CustomersTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Заказчики'
-        labels = ['Код заказчика', 'Наименование', 'Адрес', 'Телефон', 'Код товара']
-        self.setColumnCount(len(labels))
-        self.setRowCount(1)
-        self.setHorizontalHeaderLabels(labels)
-        self.resizeColumnsToContents()
-
-
-class StockTable(QTableWidget):
-    def __init__(self):
-        super().__init__()
-        self.initWidget()
-
-    def initWidget(self):
-        self.name = 'Склад'
-        labels = ['Дата поступления', 'Дата заказа', 'Дата отправки', 'Код товара', 'Код поставщика', 'Код заказчика'
-                  'Способ поставки', 'Обьем', 'Цена', 'Код сотрудника']
         self.setColumnCount(len(labels))
         self.setRowCount(1)
         self.setHorizontalHeaderLabels(labels)
