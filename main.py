@@ -11,7 +11,8 @@ from PyQt5.QtWidgets import (
     QLabel,
     QDialog,
     QMessageBox,
-    QFormLayout
+    QFormLayout,
+    QLayout
 )
 from PyQt5.QtCore import Qt
 import sys
@@ -86,6 +87,7 @@ class NewTableInput(QDialog):
         self.names = []
 
         self.layout = QGridLayout()
+        self.layout.setSizeConstraint(QLayout.SetFixedSize)
 
         self.okButton = QPushButton('Создать')
         self.okButton.clicked.connect(self.createTable)
