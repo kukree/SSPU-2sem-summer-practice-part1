@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QDialog,
     QComboBox,
-    QCheckBox
+    QCheckBox,
+    QRadioButton
 )
 from PyQt5.QtCore import Qt
 from sqlalchemy import (
@@ -134,7 +135,7 @@ class NewTableInput(QDialog):
         notNull = QCheckBox()
         self.notNulls.append(notNull)
 
-        primaryKey = QCheckBox()
+        primaryKey = QRadioButton()
         self.primaryKeys.append(primaryKey)
 
         autoIncrement = QCheckBox()
