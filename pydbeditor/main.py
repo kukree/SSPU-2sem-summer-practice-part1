@@ -62,15 +62,23 @@ class MainWindow(QWidget):
         if response == QDialog.Accepted:
             self.dbConn = dbInput.conn
             self.dbEngine = dbInput.engine
-            tables = self.dbEngine.table_names()
-            for table in tables:
-                self.tabs.addTab(self.employeesTable, table)
+            self.loadTables()
 
     def createTable(self):
         newTableInput = NewTableInput(self)
         response = newTableInput.exec_()
         if response == QDialog.Accepted:
-            print('Meow!')  # TEMP
+            meta = newTableInput.meta
+            meta.create_all(self.dbEngine)
+            self.tabs.clear()
+            tables = self.dbEngine.table_names()
+            for table in tables:
+                self.tabs.addTab(QWidget(), table)
+
+    def loadTables(self):
+        tables = self.dbEngine.table_names()
+        for table in tables:
+            self.tabs.addTab(QWidget(), table)
 
 
 # TODO: Создать класс для новой таблицы и ее вывода в окне вкладок

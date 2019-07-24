@@ -159,7 +159,7 @@ class NewTableInput(QDialog):
         self.layout.addWidget(self.okButton, self.lastColumnID+1, 0, 1, 1)
 
     def createTable(self):
-        meta = MetaData()
+        self.meta = MetaData()
         columns = []
         for name in self.columnNames:
             if name.text() == '':
@@ -177,7 +177,7 @@ class NewTableInput(QDialog):
                                   autoincrement=self.autoIncrements[i].isChecked(),
                                   default=self.defaults[i].text())
                            )
-        self.table = Table(self.tableName.text(), meta)
+        self.table = Table(self.tableName.text(), self.meta)
         for column in columns:
             self.table.append_column(column)
         self.accept()
