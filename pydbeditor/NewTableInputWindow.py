@@ -5,9 +5,23 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QLayout,
     QMessageBox,
-    QDialog
+    QDialog,
+    QComboBox
 )
 from PyQt5.QtCore import Qt
+from sqlalchemy import (
+    BigInteger,
+    Boolean,
+    Date,
+    DateTime,
+    Float,
+    Integer,
+    Numeric,
+    SmallInteger,
+    String,
+    Text,
+    Time
+)
 
 
 class NewTableInput(QDialog):
@@ -16,7 +30,22 @@ class NewTableInput(QDialog):
         self.initWindow()
 
     def initWindow(self):
-        self.names = []
+        self.types = [
+            BigInteger,
+            Boolean,
+            Date,
+            DateTime,
+            Float,
+            Integer,
+            Numeric,
+            SmallInteger,
+            String,
+            Text,
+            Time
+        ]
+        self.typesStr = [str(i.__name__) for i in self.types]
+        self.columnNames = []
+        self.columnTypes = []
 
         self.layout = QGridLayout()
         self.layout.setSizeConstraint(QLayout.SetFixedSize)
@@ -27,18 +56,26 @@ class NewTableInput(QDialog):
         tableNameLabel = QLabel('Имя таблицы')
         self.tableName = QLineEdit()
 
-        self.newColumnLabel = QLabel('Новая колонка')
+        self.columnNameLabel = QLabel('Имя колонки')
+        self.columnNameLabel.hide()  # Hide while newColumnButton is not clicked
+
+        self.typeLabel = QLabel('Тип колонки')
+        self.typeLabel.hide()  # Hide while newColumnButton is not clicked
+
+        self.labelsHidden = True
+
         self.newColumnButton = QPushButton('+')
         self.newColumnButton.clicked.connect(self.addColumn)
 
-        self.lastColumnID = 1
+        self.lastColumnID = 2
 
         self.layout.addWidget(tableNameLabel, 0, 0)
         self.layout.addWidget(self.tableName, 1, 0)
-        self.layout.addWidget(self.newColumnLabel, 0, self.lastColumnID)
-        self.layout.addWidget(self.newColumnButton, 1, self.lastColumnID)
+        self.layout.addWidget(self.columnNameLabel, 2, 0)
+        self.layout.addWidget(self.typeLabel, 2, 1)
+        self.layout.addWidget(self.newColumnButton, self.lastColumnID, 0)
 
-        self.layout.addWidget(self.okButton, 2, 0, 1, self.lastColumnID+1)
+        self.layout.addWidget(self.okButton, self.lastColumnID+1, 0, 1, 1)
 
         self.setLayout(self.layout)
         self.setWindowModality(Qt.ApplicationModal)
@@ -46,22 +83,33 @@ class NewTableInput(QDialog):
         self.resize(500, 300)
 
     def addColumn(self):
-        self.layout.removeWidget(self.newColumnLabel)
-        self.layout.removeWidget(self.newColumnButton)
-        newColumnNameLabel = QLabel('Имя колонки')
+        if self.labelsHidden:
+            self.labelsHidden = False
+            self.columnNameLabel.show()
+            self.typeLabel.show()
+
         newColumnName = QLineEdit()
-        self.names.append(newColumnName)
+        self.columnNames.append(newColumnName)
+        newColumnType = QComboBox()
+        newColumnType.addItems(self.typesStr)
+        self.columnTypes.append(newColumnType)
+
         self.lastColumnID += 1
-        self.layout.addWidget(newColumnNameLabel, 0, self.lastColumnID)
-        self.layout.addWidget(newColumnName, 1, self.lastColumnID)
+
+        self.layout.addWidget(newColumnName, self.lastColumnID, 0)
+        self.layout.addWidget(newColumnType, self.lastColumnID, 1)
+
+        # Move newColumnButton
+        self.layout.removeWidget(self.newColumnButton)
         self.lastColumnID += 1
-        self.layout.addWidget(self.newColumnLabel, 0, self.lastColumnID)
-        self.layout.addWidget(self.newColumnButton, 1, self.lastColumnID)
+        self.layout.addWidget(self.newColumnButton, self.lastColumnID, 0)
+
+        # Move okButton
         self.layout.removeWidget(self.okButton)
-        self.layout.addWidget(self.okButton, 2, 0, 1, self.lastColumnID + 1)
+        self.layout.addWidget(self.okButton, self.lastColumnID+1, 0, 1, 1)
 
     def createTable(self):
-        for name in self.names:
+        for name in self.columnNames:
             if name.text() == '':
                 QMessageBox.critical(
                     self, 'Ошибка', 'Одно из полей осталось пустым', QMessageBox.Ok, QMessageBox.Ok)
